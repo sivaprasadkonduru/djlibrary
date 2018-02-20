@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djapp'
 ]
 
 MIDDLEWARE = [
@@ -75,14 +76,20 @@ WSGI_APPLICATION = 'djlib.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'djlibdb',
+        'USER': 'postgres',
+        'PASSWORD': 'shiva123',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 
 
 # Password validation
-# https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
+# https://docs.djangoproject.com/en/1.10/iref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
