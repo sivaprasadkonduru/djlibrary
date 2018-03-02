@@ -28,6 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 LOGIN_REDIRECT_URL = '/'
+
+AUTH_USER_MODEL = 'djapp.DjUser'
 # Application definition
 
 INSTALLED_APPS = [

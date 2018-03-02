@@ -2,7 +2,11 @@ from django.shortcuts import render
 from .forms import SignUpForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
+from .models import DjUser, Book
+import datetime
+from django.views.generic import ListView
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def registration(request):
@@ -14,11 +18,12 @@ def registration(request):
             user_name = data['username']
             email = data['email']
             password = data['password']
-            if not User.objects.filter(username=user_name).exists() and \
-                not User.objects.filter(email=email).exists():
-                User.objects.create_user(user_name, email, password)
+            if not DjUser.objects.filter(username=user_name).exists() and \
+                not DjUser.objects.filter(email=email).exists():
+                DjUser.objects.create_user(user_name, email, password)
                 user = authenticate(username=user_name, password=password)
                 login(request, user)
+                form.save()
                 return HttpResponseRedirect('/')
 
         else:
@@ -32,4 +37,16 @@ def registration(request):
 
 def home(request):
     return render(request, 'home.html')
+
+
+def list_book(request):
+    #import pdb;pdb.set_trace()
+    #return HttpResponse(request.user.username)
+    d = DjUser.objects.get(username=request.user.username)
+    #a = Book.objects.get_or_create(book_user=d,name='MachineLearning', edition='5', author='abc', publisher='xyz', issue_date=datetime.datetime.now())
+    #a = Book(book_user=d,name='MachineLearning', edition='5', author='abc', publisher='xyz', issue_date=datetime.datetime.now())
+    #a.save()
+    data = Book.objects.filter(book_user=DjUser.objects.get(username=request.user.username)).distinct()
+
+    return render(request, 'book_list.html', {'book_data': data})
 
