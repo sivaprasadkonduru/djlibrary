@@ -38,15 +38,27 @@ def registration(request):
 def home(request):
     return render(request, 'home.html')
 
-
 def list_book(request):
-    #import pdb;pdb.set_trace()
-    #return HttpResponse(request.user.username)
+   
     d = DjUser.objects.get(username=request.user.username)
     #a = Book.objects.get_or_create(book_user=d,name='MachineLearning', edition='5', author='abc', publisher='xyz', issue_date=datetime.datetime.now())
     #a = Book(book_user=d,name='MachineLearning', edition='5', author='abc', publisher='xyz', issue_date=datetime.datetime.now())
     #a.save()
-    data = Book.objects.filter(book_user=DjUser.objects.get(username=request.user.username)).distinct()
+    data = Book.objects.filter(book_user=d).distinct()
 
     return render(request, 'book_list.html', {'book_data': data})
+
+
+class BookView(ListView):
+
+    model = Book
+    template_name = 'book_list.html'
+    context_object_name = 'book_data'
+
+    def get_queryset(self):
+        d = DjUser.objects.get(username=self.request.user.username)
+        data = Book.objects.filter(book_user=d).distinct()
+        return data
+
+
 

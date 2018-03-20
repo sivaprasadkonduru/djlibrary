@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Home</title>
-</head>
+{% extends "base.html" %}
+
+{% block content %}
 <body>
     {% if user.is_authenticated %}
     <p>hello</p>
@@ -14,4 +12,4 @@
     <p align="center"><a href="/register">Register</a></p>
     {% endif %}
 </body>
-</html>
+{% endblock %}

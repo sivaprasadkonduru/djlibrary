@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^logout/', auth_views.logout, {'next_page': '/login/'}),
     url(r'^register/', views.registration),
     url(r'^$', views.home),
-    #url(r'book/', views.BookView.as_view())
-    url(r'book/', views.list_book)
+    url(r'book/', views.BookView.as_view())
+    #url(r'book/', views.list_book)
 ]
 
