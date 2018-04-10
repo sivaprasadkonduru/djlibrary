@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'djapp'
+    'djapp',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,15 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'djlib.urls'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'djapp_cache'
+    }
+}
+
+
 
 TEMPLATES = [
     {

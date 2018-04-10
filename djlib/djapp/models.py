@@ -34,7 +34,7 @@ class DjUser(AbstractUser):
 
 class Book(models.Model):
 
-    book_user = models.ForeignKey(DjUser)
+    book_user = models.ForeignKey(DjUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
     author = models.CharField(max_length=20)
     edition = models.CharField(max_length=5)

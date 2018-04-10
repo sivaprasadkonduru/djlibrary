@@ -4,9 +4,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import DjUser, Book
+from django.views.decorators.cache import cache_page
 import datetime
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
+from rest_framework import serializers, viewsets, generics
+from .serializers import BookSerializer
+
 # Create your views here.
 
 def registration(request):
@@ -38,8 +42,9 @@ def registration(request):
 def home(request):
     return render(request, 'home.html')
 
+@cache_page(60 * 10)
 def list_book(request):
-   
+
     d = DjUser.objects.get(username=request.user.username)
     #a = Book.objects.get_or_create(book_user=d,name='MachineLearning', edition='5', author='abc', publisher='xyz', issue_date=datetime.datetime.now())
     #a = Book(book_user=d,name='MachineLearning', edition='5', author='abc', publisher='xyz', issue_date=datetime.datetime.now())
@@ -57,8 +62,36 @@ class BookView(ListView):
 
     def get_queryset(self):
         d = DjUser.objects.get(username=self.request.user.username)
+        #import pdb;pdb.set_trace()
         data = Book.objects.filter(book_user=d).distinct()
         return data
+
+
+'''class BookApiView(generics.ListAPIView):
+
+    serializer_class = BookSerializer
+    queryset = Book.objects.all()
+
+
+class BookDetailView(generics.RetrieveAPIView):
+
+    serializer_class = BookSerializer
+    queryset = Book.objects.all()
+
+
+class BookDelView(generics.DestroyAPIView):
+
+    serializer_class = BookSerializer
+    queryset = Book.objects.all()'''
+
+
+class BookViewSet(viewsets.ModelViewSet):
+
+    serializer_class = BookSerializer
+    queryset = Book.objects.all()
+
+
+
 
 
 
