@@ -55,14 +55,13 @@ def list_book(request):
 
 
 class BookView(ListView):
-
+    ''' class based view which uses generic listview'''
     model = Book
     template_name = 'book_list.html'
     context_object_name = 'book_data'
 
     def get_queryset(self):
         d = DjUser.objects.get(username=self.request.user.username)
-        #import pdb;pdb.set_trace()
         data = Book.objects.filter(book_user=d).distinct()
         return data
 
